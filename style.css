@@ -1,0 +1,86 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 1px solid black;
+}
+
+body{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(41, 39, 39);
+}
+
+main {
+    width: 900px;
+    height: 700px;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    background-color: green;
+    overflow: hidden;
+}
+
+#road {
+    background-color: rgb(30, 28, 28);
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+#lines-container-1,
+#lines-container-2,
+#lines-container-3 {
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.lines{
+    background-color: white;
+    width: 15px;
+    height: 110px;
+    margin-top: 64px;
+}
+
+#lines-container-1{
+    animation: lc1-moveDown 4s linear forwards;
+}
+
+@keyframes lc1-moveDown {
+    0% {
+        top: 0px;
+    }
+    100% {
+        top: 700px;
+    }
+}
+
+#lines-container-2,
+#lines-container-3{
+    top: -700px;
+    animation: moveDown 8s linear infinite;
+}
+    
+#lines-container-3{
+    animation-delay: 4s;
+}
+
+@keyframes moveDown {
+    0% {
+        top: -700px;
+    }
+    100% {
+        top: 700px;
+    }
+}
+
+#playerCar {
+    position: absolute;
+    height: 40px;
+    width: 20px;
+    background-color: red;
+    bottom: 50px;
+}
