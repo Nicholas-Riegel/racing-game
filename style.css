@@ -23,7 +23,7 @@ main {
 }
 
 #road {
-    background-color: rgb(30, 28, 28);
+    background-color: rgb(69, 63, 63);
     display: flex;
     justify-content: center;
     position: relative;
@@ -63,7 +63,7 @@ main {
     top: -700px;
     animation: moveDown 8s linear infinite;
 }
-    
+
 #lines-container-3{
     animation-delay: 4s;
 }
@@ -77,10 +77,29 @@ main {
     }
 }
 
-#playerCar {
+.car{
     position: absolute;
     height: 40px;
     width: 20px;
+}
+
+#playerCar {
     background-color: red;
     bottom: 50px;
+}
+
+#enCar1 {
+    background-color: black;
+    top: -40px;
+    left: 30px;
+    animation: enCarMoveDown 3s linear infinite;
+}
+
+@keyframes enCarMoveDown {
+    0% {
+        top: -40px;
+    }
+    100% {
+        top: 700px;
+    }
 }
