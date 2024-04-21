@@ -5,28 +5,43 @@
 // -------------------------------------Functions--------------------------------------------------------
 
 const createEnemyCars = () => {
+    
     const enemyCar = document.createElement('div')
+    
     enemyCar.classList.add('car')
+    
     enemyCar.classList.add('enemyCar')
+    
     const left = Math.floor(Math.random() * 428)
+    
     enemyCar.style.left = `${left}px`
+    
     const road = document.getElementById('road')
+    
     road.prepend(enemyCar)
     
     checkPositionAndRemove(enemyCar)
 }
 
+// check position of car and remove if off bottom of screen: code adapeted from ChatGPT
 const checkPositionAndRemove = (enemyCar) => {
+    
     const checkInterval = setInterval(() => {
+
         const topPosition = parseFloat(window.getComputedStyle(enemyCar).top);
 
-        // Check if car is off the bottom of the screen
         if (topPosition >= 700) {
+            
             const road = document.getElementById('road');
+            
             road.removeChild(enemyCar);
-            clearInterval(checkInterval);  // Stop the interval
+            
+            clearInterval(checkInterval);  
+        
         }
-    }, 50);  // Check position every 50 milliseconds
+    
+    }, 50);  
+
 };
 
 setInterval(createEnemyCars, 1000)

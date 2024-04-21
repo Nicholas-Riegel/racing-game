@@ -1,11 +1,20 @@
+// while ChatGPT gave me the ideas for much of this code, as I do not know much about how to move divs in js (which is the main reason I wanted to do this project - in order to learn how to do it), ChatGPT's answers had to be heavily adapted and the answers from several queries combined to get the effect I wanted. The recursive use of the requestAnimationFrame function was key to getting the smooth movement of the players car. 
+
+// get player car from html
 const playerCar = document.getElementById('playerCar');
+
+// get the computed style details for the car
 const computedStyle = getComputedStyle(playerCar);
 
+// get the starting position of the car
 let x = parseInt(computedStyle.left, 10);
 let y = parseInt(computedStyle.top, 10);
+
+// set the speed of movement on keydowns
 const speed = 5;
+
+// arrow key activation
 let [arrowUp, arrowDown, arrowLeft, arrowRight] = [false, false, false, false]
-let moving = false;
 
 const topBoundry = 4;
 const bottomBoundry = 660;
@@ -13,12 +22,10 @@ const leftBoundry = 2;
 const rightBoundry = 428;
 
 document.addEventListener('keydown', (event) => {
-    moving = true;
     updateArrowKeys(event.key, true)
 });
 
 document.addEventListener('keyup', (event) => {
-    moving = false;
     updateArrowKeys(event.key, false)
 });
 
@@ -40,39 +47,35 @@ function updateArrowKeys(key, status) {
             break;
     }
 }
-function move() {
-    if (moving) {
-        if (arrowUp && arrowLeft && y > topBoundry && x > leftBoundry) {
-            y -= speed;
-            x -= speed;
-        } else if (arrowUp && arrowRight && y > topBoundry && x < rightBoundry) {
-            y -= speed;
-            x += speed;
-        } else if (arrowDown && arrowLeft && x > leftBoundry && y < bottomBoundry) {
-            y += speed;
-            x -= speed;
-        } else if (arrowDown && arrowRight && x < rightBoundry && y < bottomBoundry) {
-            y += speed;
-            x += speed;
-        } else if (arrowUp && y > topBoundry){
-            y -= speed;
-        } else if (arrowDown && y < bottomBoundry){
-            y += speed;
-        } else if (arrowLeft && x > leftBoundry){
-            x -= speed;
-        } else if (arrowRight && x < rightBoundry){
-            x += speed;
-        }
-    
-        // Update car position
-        playerCar.style.top = y + 'px';
-        playerCar.style.left = x + 'px';
 
-        // console.log(object);
+function move() {
+        
+    if (arrowUp && arrowLeft && y > topBoundry && x > leftBoundry) {
+        y -= speed;
+        x -= speed;
+    } else if (arrowUp && arrowRight && y > topBoundry && x < rightBoundry) {
+        y -= speed;
+        x += speed;
+    } else if (arrowDown && arrowLeft && x > leftBoundry && y < bottomBoundry) {
+        y += speed;
+        x -= speed;
+    } else if (arrowDown && arrowRight && x < rightBoundry && y < bottomBoundry) {
+        y += speed;
+        x += speed;
+    } else if (arrowUp && y > topBoundry){
+        y -= speed;
+    } else if (arrowDown && y < bottomBoundry){
+        y += speed;
+    } else if (arrowLeft && x > leftBoundry){
+        x -= speed;
+    } else if (arrowRight && x < rightBoundry){
+        x += speed;
     }
+    
+    playerCar.style.top = y + 'px';
+    playerCar.style.left = x + 'px';
 
     requestAnimationFrame(move);
 }
 
-// Start the animation loop
 requestAnimationFrame(move);
