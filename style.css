@@ -1,8 +1,14 @@
+:root{
+    --roadSpeed: 2s;
+    --roadSpeedx2: 4s;
+    --enCarSpeed: 3s;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    border: 1px solid black;
+    /* border: 1px solid black; */
 }
 
 body{
@@ -46,7 +52,7 @@ main {
 }
 
 #lines-container-1{
-    animation: lc1-moveDown 4s linear forwards;
+    animation: lc1-moveDown var(--roadSpeed) linear forwards;
 }
 
 @keyframes lc1-moveDown {
@@ -61,11 +67,11 @@ main {
 #lines-container-2,
 #lines-container-3{
     top: -700px;
-    animation: moveDown 8s linear infinite;
+    animation: moveDown var(--roadSpeedx2) linear infinite;
 }
 
 #lines-container-3{
-    animation-delay: 4s;
+    animation-delay: var(--roadSpeed);
 }
 
 @keyframes moveDown {
@@ -88,11 +94,11 @@ main {
     bottom: 50px;
 }
 
-#enCar1 {
+.enemyCar {
     background-color: black;
     top: -40px;
-    left: 30px;
-    animation: enCarMoveDown 3s linear infinite;
+    z-index: 10;
+    animation: enCarMoveDown var(--enCarSpeed) linear forwards;
 }
 
 @keyframes enCarMoveDown {
