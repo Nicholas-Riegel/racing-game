@@ -1,4 +1,3 @@
-// while ChatGPT gave me the ideas for much of this code, as I do not know much about how to move divs in js (which is the main reason I wanted to do this project - in order to learn how to do it), ChatGPT's answers had to be heavily adapted and the answers from several queries combined to get the effect I wanted. The recursive use of the requestAnimationFrame function was key to getting the smooth movement of the players car. 
 
 // ------------------------------------------------Constants and variables--------------------------------------------
 
@@ -36,7 +35,51 @@ document.addEventListener('keyup', (event) => {
 
 // ------------------------------------------------Functions----------------------------------------------------------
 
-// set status of keys
+// create enemy cars
+const createEnemyCars = () => {
+    
+    const enemyCar = document.createElement('div')
+    
+    enemyCar.classList.add('car')
+    
+    enemyCar.classList.add('enemyCar')
+    
+    const left = Math.floor(Math.random() * 428)
+    
+    enemyCar.style.left = `${left}px`
+    
+    const road = document.getElementById('road')
+    
+    road.prepend(enemyCar)
+    
+    checkPositionAndRemove(enemyCar)
+}
+
+// check position of enemy car and remove if off bottom of screen: code adapeted from ChatGPT
+const checkPositionAndRemove = (enemyCar) => {
+    
+    const checkInterval = setInterval(() => {
+
+        const topPosition = parseFloat(window.getComputedStyle(enemyCar).top);
+
+        if (topPosition >= 700) {
+            
+            const road = document.getElementById('road');
+            
+            road.removeChild(enemyCar);
+            
+            clearInterval(checkInterval);  
+        
+        }
+    
+    }, 50);  
+
+};
+
+// create enemy cars at a random x position every second
+setInterval(createEnemyCars, 1000)
+
+// set status of players key presses
 function updateArrowKeys(key, status) {
     switch (key) {
         case 'ArrowUp':
@@ -56,7 +99,7 @@ function updateArrowKeys(key, status) {
     }
 }
 
-// move car when keys are true
+// move player's car when keys are true
 function move() {
     
     if (arrowUp && arrowLeft && y > topBoundry && x > leftBoundry) {
@@ -88,3 +131,37 @@ function move() {
 }
 
 requestAnimationFrame(move);
+
+
+// // Track player's car
+// const playerCar = document.getElementById('player-car');
+
+// // Collision detection
+// const checkCollisions = () => {
+//   const playerRect = playerCar.getBoundingClientRect();
+//   const enemyCars = document.querySelectorAll('.enemyCar');
+  
+//   enemyCars.forEach(enemyCar => {
+//     const enemyRect = enemyCar.getBoundingClientRect();
+    
+//     if (
+//       playerRect.top < enemyRect.bottom &&
+//       playerRect.bottom > enemyRect.top &&
+//       playerRect.left < enemyRect.right &&
+//       playerRect.right > enemyRect.left
+//     ) {
+//       handleCollision(enemyCar);
+//     }
+//   });
+// };
+
+// // Collision handling
+// const handleCollision = (enemyCar) => {
+//   // Perform actions when collision occurs, e.g., reduce health, end game, etc.
+//   // You can remove the collided enemy car from the DOM
+//   const road = document.getElementById('road');
+//   road.removeChild(enemyCar);
+// };
+
+// // Periodically check for collisions
+// setInterval(checkCollisions, 50);
