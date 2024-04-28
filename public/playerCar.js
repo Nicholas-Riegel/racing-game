@@ -1,4 +1,4 @@
-// while ChatGPT gave me the ideas for much of this code, as I do not know much about how to move divs in js (which is the main reason I wanted to do this project - in order to learn how to do it), ChatGPT's answers had to be heavily adapted and the answers from several queries combined to get the effect I wanted. The recursive use of the requestAnimationFrame function was key to getting the smooth movement of the players car. 
+// while ChatGPT gave me the ideas for much of this code, as I do not know much about how to move divs in js (which is the main reason I wanted to do this project - in order to learn how to do it), ChatGPT's answers had to be heavily adapted and the answers from several queries combined to get the effect I wanted. The recursive use of the requestAnimationFrame function was key to getting the smooth movement of the player's car. 
 
 // ------------------------------------------------Constants and variables--------------------------------------------
 
