@@ -1,8 +1,21 @@
 
 // ------------------------------------------------Constants and variables--------------------------------------------
 
-// get player car from html
-const playerCar = document.getElementById('playerCar');
+// create white lines
+const linesContainerArray = document.querySelectorAll('#road > div')
+linesContainerArray.forEach(x => {
+    for (let i = 0; i < 4; i++){
+        const line = document.createElement('div')
+        line.classList.add('lines')
+        x.appendChild(line)
+    }
+})
+
+// create player car
+const playerCar = document.createElement('div')
+playerCar.setAttribute('id', 'playerCar')
+playerCar.setAttribute('class', 'car')
+document.querySelector('#road').appendChild(playerCar)
 
 // get the computed style details for the car
 const computedStyle = getComputedStyle(playerCar);
