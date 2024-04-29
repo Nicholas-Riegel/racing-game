@@ -24,10 +24,10 @@ const leftBoundry = 2;
 const rightBoundry = 428;
 
 let enemyCarInterval = null;
-
+let checkCollisionsInterval = null;
 let gameActive = true;
-// ------------------------------------------------Event Listeners----------------------------------------------------
 
+// ------------------------------------------------Event Listeners----------------------------------------------------
 
 document.addEventListener('keydown', (event) => {
     updateArrowKeys(event.key, true)
@@ -73,7 +73,6 @@ const checkPositionAndRemove = (enemyCar) => {
             road.removeChild(enemyCar);
             
             clearInterval(checkInterval);  
-        
         }
     
     }, 50);  
@@ -100,63 +99,95 @@ function updateArrowKeys(key, status) {
     }
 }
 
-// move player's car when keys are true
+// move player's car when keys are true within the boundaries of the road
 function move() {
     
-    if (arrowUp && arrowLeft && y > topBoundry && x > leftBoundry) {
+    if (
+        arrowUp 
+        && arrowLeft 
+        && y > topBoundry 
+        && x > leftBoundry
+    ) {
         y -= speed;
         x -= speed;
-    } else if (arrowUp && arrowRight && y > topBoundry && x < rightBoundry) {
+    } else if (
+        arrowUp 
+        && arrowRight 
+        && y > topBoundry 
+        && x < rightBoundry
+    ) {
         y -= speed;
         x += speed;
-    } else if (arrowDown && arrowLeft && x > leftBoundry && y < bottomBoundry) {
+    } else if (
+        arrowDown 
+        && arrowLeft 
+        && x > leftBoundry 
+        && y < bottomBoundry
+    ) {
         y += speed;
         x -= speed;
-    } else if (arrowDown && arrowRight && x < rightBoundry && y < bottomBoundry) {
+    } else if (
+        arrowDown 
+        && arrowRight 
+        && x < rightBoundry 
+        && y < bottomBoundry
+    ) {
         y += speed;
         x += speed;
-    } else if (arrowUp && y > topBoundry){
+    } else if (
+        arrowUp 
+        && y > topBoundry
+    ){
         y -= speed;
-    } else if (arrowDown && y < bottomBoundry){
+    } else if (
+        arrowDown 
+        && y < bottomBoundry
+    ){
         y += speed;
-    } else if (arrowLeft && x > leftBoundry){
+    } else if (
+        arrowLeft 
+        && x > leftBoundry
+    ){
         x -= speed;
-    } else if (arrowRight && x < rightBoundry){
+    } else if (
+        arrowRight 
+        && x < rightBoundry
+    ){
         x += speed;
     }
     
     playerCar.style.top = y + 'px';
     playerCar.style.left = x + 'px';
 
-    if (gameActive){
-
-        requestAnimationFrame(move);
-    }
+    if (gameActive) requestAnimationFrame(move);
 }
 
 // Collision detection
 const checkCollisions = () => {
-  const playerRect = playerCar.getBoundingClientRect();
-  const enemyCars = document.querySelectorAll('.enemyCar');
-  
-  enemyCars.forEach(enemyCar => {
-    const enemyRect = enemyCar.getBoundingClientRect();
+
+    const playerRect = playerCar.getBoundingClientRect();
+    const enemyCars = document.querySelectorAll('.enemyCar');
     
-    if (
-        playerRect.top < enemyRect.bottom &&
-        playerRect.left < enemyRect.right &&
-        playerRect.right > enemyRect.left && 
-        playerRect.bottom > enemyRect.top 
-    ) {
-        enemyCars.forEach(enemyCar => {
-            enemyCar.classList.add('crashed')
-        })
-        document.getElementById('lines-container-2').classList.add('crashed')
-        document.getElementById('lines-container-3').classList.add('crashed')
-        clearInterval(enemyCarInterval)
-        gameActive = false
-    }
-  });
+    enemyCars.forEach(enemyCar => {
+        const enemyRect = enemyCar.getBoundingClientRect();
+        
+        if (
+            playerRect.top < enemyRect.bottom 
+            && playerRect.left < enemyRect.right
+            && playerRect.right > enemyRect.left
+            && playerRect.bottom > enemyRect.top 
+        ) {
+            // pause game
+            enemyCars.forEach(enemyCar => {
+                enemyCar.classList.add('pause-animation')
+            })
+            document.getElementById('lines-container-2').classList.add('pause-animation')
+            document.getElementById('lines-container-3').classList.add('pause-animation')
+            clearInterval(enemyCarInterval)
+            clearInterval(checkCollisionsInterval)
+            gameActive = false
+        }
+    });
 };
 
 const playGame = () => {
@@ -168,7 +199,7 @@ const playGame = () => {
     requestAnimationFrame(move);
     
     // Periodically check for collisions
-    setInterval(checkCollisions, 10);
+    checkCollisionsInterval = setInterval(checkCollisions, 10);
 }
 
 playGame()

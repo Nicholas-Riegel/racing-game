@@ -110,6 +110,6 @@ main {
     }
 }
 
-.crashed {
+.pause-animation {
     animation-play-state: paused !important;
 }
