@@ -18,12 +18,9 @@ playerCar.setAttribute('id', 'playerCar')
 playerCar.setAttribute('class', 'car')
 document.querySelector('#road').appendChild(playerCar)
 
-// get the computed style details for the car
-const computedStyle = getComputedStyle(playerCar);
-
 // get the starting position of the car
-let x = parseInt(computedStyle.left, 10);
-let y = parseInt(computedStyle.top, 10);
+let playerCarX = parseInt(getComputedStyle(playerCar).left, 10);
+let playerCarY = parseInt(getComputedStyle(playerCar).top, 10);
 
 // set the speed of movement on keydowns
 const speed = 3;
@@ -43,12 +40,12 @@ let gameActive = true;
 
 // ------------------------------------------------Event Listeners----------------------------------------------------
 
-document.addEventListener('keydown', (event) => {
-    updateArrowKeys(event.key, true)
+document.addEventListener('keydown', (e) => {
+    updateArrowKeys(e.key, true)
 });
 
-document.addEventListener('keyup', (event) => {
-    updateArrowKeys(event.key, false)
+document.addEventListener('keyup', (e) => {
+    updateArrowKeys(e.key, false)
 });
 
 // ------------------------------------------------Functions----------------------------------------------------------
@@ -119,59 +116,59 @@ function move() {
     if (
         arrowUp 
         && arrowLeft 
-        && y > topBoundry 
-        && x > leftBoundry
+        && playerCarY > topBoundry 
+        && playerCarX > leftBoundry
     ) {
-        y -= speed;
-        x -= speed;
+        playerCarY -= speed;
+        playerCarX -= speed;
     } else if (
         arrowUp 
         && arrowRight 
-        && y > topBoundry 
-        && x < rightBoundry
+        && playerCarY > topBoundry 
+        && playerCarX < rightBoundry
     ) {
-        y -= speed;
-        x += speed;
+        playerCarY -= speed;
+        playerCarX += speed;
     } else if (
         arrowDown 
         && arrowLeft 
-        && x > leftBoundry 
-        && y < bottomBoundry
+        && playerCarX > leftBoundry 
+        && playerCarY < bottomBoundry
     ) {
-        y += speed;
-        x -= speed;
+        playerCarY += speed;
+        playerCarX -= speed;
     } else if (
         arrowDown 
         && arrowRight 
-        && x < rightBoundry 
-        && y < bottomBoundry
+        && playerCarX < rightBoundry 
+        && playerCarY < bottomBoundry
     ) {
-        y += speed;
-        x += speed;
+        playerCarY += speed;
+        playerCarX += speed;
     } else if (
         arrowUp 
-        && y > topBoundry
+        && playerCarY > topBoundry
     ){
-        y -= speed;
+        playerCarY -= speed;
     } else if (
         arrowDown 
-        && y < bottomBoundry
+        && playerCarY < bottomBoundry
     ){
-        y += speed;
+        playerCarY += speed;
     } else if (
         arrowLeft 
-        && x > leftBoundry
+        && playerCarX > leftBoundry
     ){
-        x -= speed;
+        playerCarX -= speed;
     } else if (
         arrowRight 
-        && x < rightBoundry
+        && playerCarX < rightBoundry
     ){
-        x += speed;
+        playerCarX += speed;
     }
     
-    playerCar.style.top = y + 'px';
-    playerCar.style.left = x + 'px';
+    playerCar.style.top = playerCarY + 'px';
+    playerCar.style.left = playerCarX + 'px';
 
     if (gameActive) requestAnimationFrame(move);
 }
