@@ -3,6 +3,7 @@
 
 // create white lines
 const linesContainerArray = document.querySelectorAll('#road > div')
+
 linesContainerArray.forEach(x => {
     for (let i = 0; i < 4; i++){
         const line = document.createElement('div')

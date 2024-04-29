@@ -85,8 +85,8 @@ main {
 
 .car{
     position: absolute;
-    height: 40px;
-    width: 20px;
+    height: 60px;
+    width: 30px;
 }
 
 #playerCar {
