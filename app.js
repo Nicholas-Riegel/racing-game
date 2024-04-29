@@ -23,7 +23,11 @@ const bottomBoundry = 660;
 const leftBoundry = 2;
 const rightBoundry = 428;
 
+let enemyCarInterval = null;
+
+let gameActive = true;
 // ------------------------------------------------Event Listeners----------------------------------------------------
+
 
 document.addEventListener('keydown', (event) => {
     updateArrowKeys(event.key, true)
@@ -124,7 +128,10 @@ function move() {
     playerCar.style.top = y + 'px';
     playerCar.style.left = x + 'px';
 
-    requestAnimationFrame(move);
+    if (gameActive){
+
+        requestAnimationFrame(move);
+    }
 }
 
 // Collision detection
@@ -146,6 +153,8 @@ const checkCollisions = () => {
         })
         document.getElementById('lines-container-2').classList.add('crashed')
         document.getElementById('lines-container-3').classList.add('crashed')
+        clearInterval(enemyCarInterval)
+        gameActive = false
     }
   });
 };
@@ -153,13 +162,13 @@ const checkCollisions = () => {
 const playGame = () => {
     
     // create enemy cars at a random x position every second
-    setInterval(createEnemyCars, 1000)
+    enemyCarInterval = setInterval(createEnemyCars, 1000)
     
     // start player move loop
     requestAnimationFrame(move);
     
     // Periodically check for collisions
-    setInterval(checkCollisions, 50);
+    setInterval(checkCollisions, 10);
 }
 
 playGame()
