@@ -25,7 +25,7 @@ let x = parseInt(computedStyle.left, 10);
 let y = parseInt(computedStyle.top, 10);
 
 // set the speed of movement on keydowns
-const speed = 5;
+const speed = 3;
 
 // arrow key activation
 let [arrowUp, arrowDown, arrowLeft, arrowRight] = [false, false, false, false]
