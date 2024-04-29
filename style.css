@@ -109,3 +109,7 @@ main {
         top: 700px;
     }
 }
+
+.crashed {
+    animation-play-state: paused !important;
+}

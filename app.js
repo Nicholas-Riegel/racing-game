@@ -76,9 +76,6 @@ const checkPositionAndRemove = (enemyCar) => {
 
 };
 
-// create enemy cars at a random x position every second
-setInterval(createEnemyCars, 1000)
-
 // set status of players key presses
 function updateArrowKeys(key, status) {
     switch (key) {
@@ -130,38 +127,39 @@ function move() {
     requestAnimationFrame(move);
 }
 
-requestAnimationFrame(move);
-
-
-// // Track player's car
-// const playerCar = document.getElementById('player-car');
-
-// // Collision detection
-// const checkCollisions = () => {
-//   const playerRect = playerCar.getBoundingClientRect();
-//   const enemyCars = document.querySelectorAll('.enemyCar');
+// Collision detection
+const checkCollisions = () => {
+  const playerRect = playerCar.getBoundingClientRect();
+  const enemyCars = document.querySelectorAll('.enemyCar');
   
-//   enemyCars.forEach(enemyCar => {
-//     const enemyRect = enemyCar.getBoundingClientRect();
+  enemyCars.forEach(enemyCar => {
+    const enemyRect = enemyCar.getBoundingClientRect();
     
-//     if (
-//       playerRect.top < enemyRect.bottom &&
-//       playerRect.bottom > enemyRect.top &&
-//       playerRect.left < enemyRect.right &&
-//       playerRect.right > enemyRect.left
-//     ) {
-//       handleCollision(enemyCar);
-//     }
-//   });
-// };
+    if (
+        playerRect.top < enemyRect.bottom &&
+        playerRect.left < enemyRect.right &&
+        playerRect.right > enemyRect.left && 
+        playerRect.bottom > enemyRect.top 
+    ) {
+        enemyCars.forEach(enemyCar => {
+            enemyCar.classList.add('crashed')
+        })
+        document.getElementById('lines-container-2').classList.add('crashed')
+        document.getElementById('lines-container-3').classList.add('crashed')
+    }
+  });
+};
 
-// // Collision handling
-// const handleCollision = (enemyCar) => {
-//   // Perform actions when collision occurs, e.g., reduce health, end game, etc.
-//   // You can remove the collided enemy car from the DOM
-//   const road = document.getElementById('road');
-//   road.removeChild(enemyCar);
-// };
+const playGame = () => {
+    
+    // create enemy cars at a random x position every second
+    setInterval(createEnemyCars, 1000)
+    
+    // start player move loop
+    requestAnimationFrame(move);
+    
+    // Periodically check for collisions
+    setInterval(checkCollisions, 50);
+}
 
-// // Periodically check for collisions
-// setInterval(checkCollisions, 50);
+playGame()
