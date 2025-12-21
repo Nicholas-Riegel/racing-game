@@ -18,7 +18,7 @@ linesContainerArray.forEach(x => {
 const playerCar = document.createElement('div')
 playerCar.setAttribute('id', 'playerCar')
 playerCar.setAttribute('class', 'car')
-document.querySelector('#road').appendChild(playerCar)
+document.querySelector('#road')!.appendChild(playerCar)
 
 // get the starting position of the car
 // getComputedStyle() gets the actual computed CSS values (e.g., "50px")
@@ -42,8 +42,8 @@ const bottomBoundry = 660;
 const leftBoundry = 2;
 const rightBoundry = 428;
 
-let enemyCarInterval = null;
-let checkCollisionsInterval = null;
+let enemyCarInterval: number | null = null;
+let checkCollisionsInterval: number | null = null;
 let gameActive = true;
 
 // ------------------------------------------------Event Listeners----------------------------------------------------
@@ -71,7 +71,7 @@ const createEnemyCars = () => {
     
     enemyCar.style.left = `${left}px`
     
-    const road = document.getElementById('road')
+    const road = document.getElementById('road')!
     
     road.prepend(enemyCar)
     
@@ -79,7 +79,7 @@ const createEnemyCars = () => {
 }
 
 // check position of enemy car and remove if off bottom of screen
-const checkPositionAndRemove = (enemyCar) => {
+const checkPositionAndRemove = (enemyCar: HTMLDivElement) => {
     
     const checkInterval = setInterval(() => {
 
@@ -87,7 +87,7 @@ const checkPositionAndRemove = (enemyCar) => {
 
         if (topPosition >= 700) {
             
-            const road = document.getElementById('road');
+            const road = document.getElementById('road')!;
             
             road.removeChild(enemyCar);
             
@@ -99,7 +99,7 @@ const checkPositionAndRemove = (enemyCar) => {
 };
 
 // set status of players key presses
-function updateArrowKeys(key, status) {
+function updateArrowKeys(key: string, status: boolean) {
     switch (key) {
         case 'ArrowUp':
             arrowUp = status;
@@ -204,10 +204,10 @@ const checkCollisions = () => {
             enemyCars.forEach(enemyCar => {
                 enemyCar.classList.add('pause-animation')
             })
-            document.getElementById('lines-container-2').classList.add('pause-animation')
-            document.getElementById('lines-container-3').classList.add('pause-animation')
-            clearInterval(enemyCarInterval)
-            clearInterval(checkCollisionsInterval)
+            document.getElementById('lines-container-2')!.classList.add('pause-animation')
+            document.getElementById('lines-container-3')!.classList.add('pause-animation')
+            if (enemyCarInterval) clearInterval(enemyCarInterval)
+            if (checkCollisionsInterval) clearInterval(checkCollisionsInterval)
             gameActive = false
         }
     });
