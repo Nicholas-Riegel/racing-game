@@ -2,6 +2,8 @@
 // ------------------------------------------------Constants and variables--------------------------------------------
 
 // create white lines
+// #road > div selects all direct child div elements of the element with ID "road"
+// This targets: lines-container-1, lines-container-2, and lines-container-3
 const linesContainerArray = document.querySelectorAll('#road > div')
 
 linesContainerArray.forEach(x => {
@@ -19,6 +21,10 @@ playerCar.setAttribute('class', 'car')
 document.querySelector('#road').appendChild(playerCar)
 
 // get the starting position of the car
+// getComputedStyle() gets the actual computed CSS values (e.g., "50px")
+// parseInt() converts the string "50px" to the number 50 (base 10)
+// These positions are relative to the #road container (top-left corner = 0,0)
+// since the car has position: absolute and #road has position: relative
 let playerCarX = parseInt(getComputedStyle(playerCar).left, 10);
 let playerCarY = parseInt(getComputedStyle(playerCar).top, 10);
 
@@ -29,6 +35,8 @@ const speed = 3;
 let [arrowUp, arrowDown, arrowLeft, arrowRight] = [false, false, false, false]
 
 // game boundaries
+// Top: 4px from top of road, Bottom: 660px from top of road
+// Left: 2px from left of road, Right: 428px from left of road
 const topBoundry = 4;
 const bottomBoundry = 660;
 const leftBoundry = 2;
@@ -70,7 +78,7 @@ const createEnemyCars = () => {
     checkPositionAndRemove(enemyCar)
 }
 
-// check position of enemy car and remove if off bottom of screen: code adapeted from ChatGPT
+// check position of enemy car and remove if off bottom of screen
 const checkPositionAndRemove = (enemyCar) => {
     
     const checkInterval = setInterval(() => {
@@ -178,9 +186,12 @@ const checkCollisions = () => {
 
     const playerRect = playerCar.getBoundingClientRect();
     const enemyCars = document.querySelectorAll('.enemyCar');
+    let enemyRect = null;    
+    
+    let collisionDetected = false;
     
     enemyCars.forEach(enemyCar => {
-        const enemyRect = enemyCar.getBoundingClientRect();
+        enemyRect = enemyCar.getBoundingClientRect();
         
         if (
             playerRect.top < enemyRect.bottom 
@@ -188,6 +199,7 @@ const checkCollisions = () => {
             && playerRect.right > enemyRect.left
             && playerRect.bottom > enemyRect.top 
         ) {
+            collisionDetected = true;            
             // pause game
             enemyCars.forEach(enemyCar => {
                 enemyCar.classList.add('pause-animation')
@@ -199,6 +211,27 @@ const checkCollisions = () => {
             gameActive = false
         }
     });
+
+    if (collisionDetected) {
+        // Calculate the center of the player car
+        const playerCenterX = playerRect.left + (playerRect.width / 2);
+        const playerCenterY = playerRect.top + (playerRect.height / 2);
+
+        // Calculate the center of the enemy car
+        // const enemyCenterX = enemyRect.left + (enemyRect.width / 2);
+        // const enemyCenterY = enemyRect.top + (enemyRect.height / 2);
+
+        // Calculate the center of the line between the centers of the two cars
+        // const centerX = (playerCenterX + enemyCenterX) / 2;
+        // const centerY = (playerCenterY + enemyCenterY) / 2;
+
+        // Create and position the crash-spark element
+        const sparkStar = document.createElement('div');
+        sparkStar.className = 'crash-spark';
+        sparkStar.style.left = playerCenterX + 'px';
+        sparkStar.style.top = playerCenterY + 'px';
+        document.body.appendChild(sparkStar);
+    }
 };
 
 const playGame = () => {
