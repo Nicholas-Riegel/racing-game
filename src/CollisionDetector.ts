@@ -1,20 +1,14 @@
-import { stopGame } from "./app.js";
-import { PlayerCar } from "./PlayerCar.js";
-
 export class CollisionDetector{
 
-    public static checkCollisions(playerCar: PlayerCar): boolean {
+    public static checkCollisions(playerRect: DOMRect, onCollision: () => void): boolean {
 
-        const playerRect = playerCar.getBoundingClientRect();
         const enemyCars = document.querySelectorAll('.enemyCar');
-        // let enemyRect = null;    
-        
-        // let collisionDetected = false;
         
         for (const enemyCar of enemyCars){
             const enemyRect = enemyCar.getBoundingClientRect();
             if (this.isColliding(playerRect, enemyRect)){
                 this.handleCollision(playerRect)
+                onCollision()
                 return true
             }
         }
@@ -43,8 +37,6 @@ export class CollisionDetector{
         // Create crash spark
         this.createCrashSpark(playerRect);
         
-        // Stop game
-        stopGame();
     }
 
     private static createCrashSpark(playerRect: DOMRect): void {

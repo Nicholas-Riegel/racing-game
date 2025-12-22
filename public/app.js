@@ -23,6 +23,6 @@ const playGame = () => {
     // start player move loop
     playerCar.startPlayerMovement();
     // Periodically check for collisions
-    checkCollisionsInterval = setInterval(() => CollisionDetector.checkCollisions(playerCar), 10);
+    checkCollisionsInterval = setInterval(() => CollisionDetector.checkCollisions(playerCar.getBoundingClientRect(), stopGame), 10);
 };
 playGame();

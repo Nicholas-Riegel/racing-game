@@ -16,19 +16,25 @@ export const stopGame = () => {
 };
 
 const playGame = () => {
-    
+
     // Initialize game components in order
     new Road(); // Create road instance
     
     const playerCar = new PlayerCar();
     // create enemy cars at a random x position every second
-    enemyCarInterval = setInterval(()=>EnemyCarFactory.createEnemyCar(), 1000)
+    enemyCarInterval = setInterval(
+        ()=>EnemyCarFactory.createEnemyCar(), 
+        1000
+    )
     
     // start player move loop
     playerCar.startPlayerMovement();
     
     // Periodically check for collisions
-    checkCollisionsInterval = setInterval(()=>CollisionDetector.checkCollisions(playerCar), 10);
+    checkCollisionsInterval = setInterval(
+        ()=>CollisionDetector.checkCollisions(playerCar.getBoundingClientRect(), stopGame), 
+        10
+    );
 }
 
 playGame()

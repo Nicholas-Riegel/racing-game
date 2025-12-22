@@ -1,14 +1,11 @@
-import { stopGame } from "./app.js";
 export class CollisionDetector {
-    static checkCollisions(playerCar) {
-        const playerRect = playerCar.getBoundingClientRect();
+    static checkCollisions(playerRect, onCollision) {
         const enemyCars = document.querySelectorAll('.enemyCar');
-        // let enemyRect = null;    
-        // let collisionDetected = false;
         for (const enemyCar of enemyCars) {
             const enemyRect = enemyCar.getBoundingClientRect();
             if (this.isColliding(playerRect, enemyRect)) {
                 this.handleCollision(playerRect);
+                onCollision();
                 return true;
             }
         }
@@ -31,8 +28,6 @@ export class CollisionDetector {
         document.getElementById('lines-container-3').classList.add('pause-animation');
         // Create crash spark
         this.createCrashSpark(playerRect);
-        // Stop game
-        stopGame();
     }
     static createCrashSpark(playerRect) {
         const playerCenterX = playerRect.left + (playerRect.width / 2);
