@@ -21,5 +21,3 @@ export class Road {
         document.getElementById('lines-container-3').classList.add('pause-animation');
     }
 }
-// Auto-initialize
-new Road();

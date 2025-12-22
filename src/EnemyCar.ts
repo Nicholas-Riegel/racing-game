@@ -55,7 +55,7 @@ export class EnemyCar{
     }
 }
 
-export class EnemyCarManager {
+export class EnemyCarFactory {
     public static createEnemyCar(): EnemyCar {
         return new EnemyCar();
     }

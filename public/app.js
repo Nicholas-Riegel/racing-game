@@ -1,5 +1,5 @@
-import "./Road.js"; // create road first
-import { EnemyCarManager } from "./EnemyCar.js";
+import { Road } from "./Road.js";
+import { EnemyCarFactory } from "./EnemyCar.js";
 import { CollisionDetector } from "./CollisionDetector.js";
 import { PlayerCar } from "./PlayerCar.js";
 // Declare interval variables
@@ -15,9 +15,11 @@ export const stopGame = () => {
         clearInterval(checkCollisionsInterval);
 };
 const playGame = () => {
+    // Initialize game components in order
+    new Road(); // Create road instance
     const playerCar = new PlayerCar();
     // create enemy cars at a random x position every second
-    enemyCarInterval = setInterval(() => EnemyCarManager.createEnemyCar(), 1000);
+    enemyCarInterval = setInterval(() => EnemyCarFactory.createEnemyCar(), 1000);
     // start player move loop
     playerCar.startPlayerMovement();
     // Periodically check for collisions

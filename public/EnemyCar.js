@@ -34,7 +34,7 @@ export class EnemyCar {
         return this.enemyCar;
     }
 }
-export class EnemyCarManager {
+export class EnemyCarFactory {
     static createEnemyCar() {
         return new EnemyCar();
     }
