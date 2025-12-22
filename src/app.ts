@@ -6,10 +6,10 @@ import Game from "./Game.js";
 
 // Create game with dependencies injected
 const game = new Game(
-    () => new Road(),  // Function that creates a Road instance
-    () => new PlayerCar(),  // Function that creates a PlayerCar instance  
+    () => new Road(),  
+    () => new PlayerCar(),  
     () => EnemyCarFactory.createEnemyCar(),
-    (playerRect, onCollision) => CollisionDetector.checkCollisions(playerRect, onCollision)
+    (playerRect, onCollision, playerCar) => CollisionDetector.checkCollisions(playerRect, onCollision, playerCar)
 );
 
 game.start();

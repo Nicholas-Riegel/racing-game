@@ -1,8 +1,8 @@
 
-// Define interfaces for what Game needs (no imports required)
 interface IPlayerCar {
     startPlayerMovement(): void;
-    getBoundingClientRect(): DOMRect;
+    pause(): void;
+    getPlayerCarDivElement(): HTMLDivElement
 }
 
 class Game {
@@ -12,10 +12,11 @@ class Game {
     private checkCollisionsInterval: number | null = null;
 
     constructor(
-        roadFactory: () => void,  // Just call it, don't store it
+        roadFactory: () => void, 
         playerCarFactory: () => IPlayerCar,
         private enemyCarFactory: () => void,
-        private collisionChecker: (playerRect: DOMRect, onCollision: () => void) => boolean
+        // This will be CollisionDetector.checkCollisions
+        private collisionChecker: (playerRect: DOMRect, onCollision: () => void, playerCar?: { pause(): void }) => boolean
     ) {
         roadFactory();
         this.playerCar = playerCarFactory();
@@ -32,8 +33,9 @@ class Game {
         // Start collision detection
         this.checkCollisionsInterval = setInterval(() => 
             this.collisionChecker(
-                this.playerCar.getBoundingClientRect(), 
-                () => this.stop()
+                this.playerCar.getPlayerCarDivElement().getBoundingClientRect(), 
+                () => this.stop(),
+                this.playerCar
             ), 10
         );
     }

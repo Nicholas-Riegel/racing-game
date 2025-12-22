@@ -1,9 +1,10 @@
 class PlayerCar {
     
-    private playerCar: HTMLDivElement;
+    private playerCarDivElement: HTMLDivElement;
     private playerCarX: number;
     private playerCarY: number;
     private speed: number = 3;
+    private isPaused: boolean = false;
     
     private arrowUp: boolean = false;
     private arrowDown: boolean = false;
@@ -16,15 +17,20 @@ class PlayerCar {
     private readonly rightBoundry: number = 428;
         
     constructor(){
-        this.playerCar = document.createElement('div');
-        this.playerCar.setAttribute('id', 'playerCar');
-        this.playerCar.setAttribute('class', 'car');
-        document.querySelector('#road')!.appendChild(this.playerCar);
+        this.playerCarDivElement = document.createElement('div');
+        this.playerCarDivElement.setAttribute('id', 'playerCar');
+        this.playerCarDivElement.setAttribute('class', 'car');
+        document.querySelector('#road')!.appendChild(this.playerCarDivElement);
         
-        this.playerCarX = parseInt(getComputedStyle(this.playerCar).left, 10);
-        this.playerCarY = parseInt(getComputedStyle(this.playerCar).top, 10);
+        this.playerCarX = parseInt(getComputedStyle(this.playerCarDivElement).left, 10);
+        this.playerCarY = parseInt(getComputedStyle(this.playerCarDivElement).top, 10);
     };
     
+    // Getter for playerCarDivElement
+    public getPlayerCarDivElement(): HTMLDivElement {
+        return this.playerCarDivElement
+    }
+
     public updateArrowKeys(key: string, status: boolean): void {
         switch (key) {
             case 'ArrowUp':
@@ -46,6 +52,10 @@ class PlayerCar {
 
     // move player's car when keys are true within the boundaries of the road
     public move(): void {
+        
+        if (this.isPaused) {
+            return;
+        }
         
         if (
             this.arrowUp 
@@ -101,14 +111,18 @@ class PlayerCar {
             this.playerCarX += this.speed;
         }
         
-        this.playerCar.style.top = this.playerCarY + 'px';
-        this.playerCar.style.left = this.playerCarX + 'px';
+        this.playerCarDivElement.style.top = this.playerCarY + 'px';
+        this.playerCarDivElement.style.left = this.playerCarX + 'px';
 
         requestAnimationFrame(() => this.move());
     }
 
-    public getBoundingClientRect(): DOMRect {
-        return this.playerCar.getBoundingClientRect();
+    public pause(): void {
+        this.isPaused = true;
+    }
+    
+    public resume(): void {
+        this.isPaused = false;
     }
     
     // Function to start player movement
