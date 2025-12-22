@@ -3,38 +3,48 @@ import EnemyCarFactory from "./EnemyCar.js";
 import CollisionDetector from "./CollisionDetector.js";
 import PlayerCar from "./PlayerCar.js";
 
-// Declare interval variables
-let enemyCarInterval: number | null = null;
-let checkCollisionsInterval: number | null = null;
+export class Game {
+    
+    private enemyCarInterval: number | null = null;
+    private checkCollisionsInterval: number | null = null;
+    private playerCar: PlayerCar;
 
-// Function to stop the game from other modules
-export const stopGame = () => {
-    if (enemyCarInterval) clearInterval(enemyCarInterval);
-    if (checkCollisionsInterval) clearInterval(checkCollisionsInterval);
-};
+    constructor() {
+        new Road();
+        this.playerCar = new PlayerCar();
+    }
 
-const playGame = () => {
+    public start(): void {
+        
+        // Start enemy spawning
+        this.enemyCarInterval = setInterval(() => 
+            EnemyCarFactory.createEnemyCar(), 1000
+        );
+        
+        // Start player movement
+        this.playerCar.startPlayerMovement();
+        
+        // Start collision detection
+        this.checkCollisionsInterval = setInterval(() => 
+            CollisionDetector.checkCollisions(
+                this.playerCar.getBoundingClientRect(), 
+                () => this.stop()
+            ), 10
+        );
+    }
 
-    // Create road instance
-    new Road(); 
-    
-    // Create player car
-    const playerCar = new PlayerCar();
-    
-    // Create enemy cars at a random x position every second
-    enemyCarInterval = setInterval(
-        ()=>EnemyCarFactory.createEnemyCar(), 
-        1000
-    )
-    
-    // Start player move loop
-    playerCar.startPlayerMovement();
-    
-    // Periodically check for collisions
-    checkCollisionsInterval = setInterval(
-        ()=>CollisionDetector.checkCollisions(playerCar.getBoundingClientRect(), stopGame), 
-        10
-    );
+    public stop(): void {
+        if (this.enemyCarInterval) clearInterval(this.enemyCarInterval);
+        if (this.checkCollisionsInterval) clearInterval(this.checkCollisionsInterval);
+    }
+
+    public restart(): void {
+        this.stop();
+        // Could add reset logic here
+        this.start();
+    }
 }
 
-playGame()
+// Initialize and start the game
+const game = new Game();
+game.start();
