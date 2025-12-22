@@ -110,6 +110,7 @@ class PlayerCar {
     public getBoundingClientRect(): DOMRect {
         return this.playerCar.getBoundingClientRect();
     }
+    
     // Function to start player movement
     public startPlayerMovement = () => {
         
