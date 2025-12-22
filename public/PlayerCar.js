@@ -95,4 +95,7 @@ export class PlayerCar {
         this.playerCar.style.left = this.playerCarX + 'px';
         requestAnimationFrame(() => this.move());
     }
+    getBoundingClientRect() {
+        return this.playerCar.getBoundingClientRect();
+    }
 }

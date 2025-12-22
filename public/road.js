@@ -1,12 +1,25 @@
-"use strict";
-// create white lines
-// #road > div selects all direct child div elements of the element with ID "road"
-// This targets: lines-container-1, lines-container-2, and lines-container-3
-const linesContainerArray = document.querySelectorAll('#road > div');
-linesContainerArray.forEach(x => {
-    for (let i = 0; i < 4; i++) {
-        const line = document.createElement('div');
-        line.classList.add('lines');
-        x.appendChild(line);
+export class Road {
+    constructor() {
+        this.LINES_PER_CONTAINER = 4;
+        this.linesContainerArray = document.querySelectorAll('#road > div');
+        this.createLines();
     }
-});
+    createLines() {
+        this.linesContainerArray.forEach(container => {
+            for (let i = 0; i < this.LINES_PER_CONTAINER; i++) {
+                const line = document.createElement('div');
+                line.classList.add('lines');
+                container.appendChild(line);
+            }
+        });
+    }
+    resetLines() {
+        // Could add methods to reset/modify road
+    }
+    pauseAnimations() {
+        document.getElementById('lines-container-2').classList.add('pause-animation');
+        document.getElementById('lines-container-3').classList.add('pause-animation');
+    }
+}
+// Auto-initialize
+new Road();
