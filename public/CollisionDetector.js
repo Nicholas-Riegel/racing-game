@@ -1,4 +1,4 @@
-export class CollisionDetector {
+class CollisionDetector {
     static checkCollisions(playerRect, onCollision) {
         const enemyCars = document.querySelectorAll('.enemyCar');
         for (const enemyCar of enemyCars) {
@@ -39,3 +39,4 @@ export class CollisionDetector {
         document.body.appendChild(sparkStar);
     }
 }
+export default CollisionDetector;

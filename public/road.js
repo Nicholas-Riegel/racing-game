@@ -1,4 +1,4 @@
-export class Road {
+class Road {
     constructor() {
         this.LINES_PER_CONTAINER = 4;
         this.linesContainerArray = document.querySelectorAll('#road > div');
@@ -21,3 +21,4 @@ export class Road {
         document.getElementById('lines-container-3').classList.add('pause-animation');
     }
 }
+export default Road;

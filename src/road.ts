@@ -1,5 +1,5 @@
-export class Road {
-    
+class Road {
+
     private linesContainerArray: NodeListOf<Element>;
     private readonly LINES_PER_CONTAINER = 4;
 
@@ -27,3 +27,5 @@ export class Road {
         document.getElementById('lines-container-3')!.classList.add('pause-animation');
     }
 }
+
+export default Road;

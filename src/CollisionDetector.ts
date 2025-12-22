@@ -1,4 +1,4 @@
-export class CollisionDetector{
+class CollisionDetector{
 
     public static checkCollisions(playerRect: DOMRect, onCollision: () => void): boolean {
 
@@ -50,3 +50,5 @@ export class CollisionDetector{
         document.body.appendChild(sparkStar);
     }
 }
+
+export default CollisionDetector;

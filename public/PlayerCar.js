@@ -1,4 +1,4 @@
-export class PlayerCar {
+class PlayerCar {
     constructor() {
         this.speed = 3;
         this.arrowUp = false;
@@ -99,3 +99,4 @@ export class PlayerCar {
         return this.playerCar.getBoundingClientRect();
     }
 }
+export default PlayerCar;

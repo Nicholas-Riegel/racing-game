@@ -1,4 +1,4 @@
-export class EnemyCar {
+class EnemyCar {
     constructor() {
         this.cleanupInterval = null;
         this.createEnemyCar();
@@ -34,8 +34,9 @@ export class EnemyCar {
         return this.enemyCar;
     }
 }
-export class EnemyCarFactory {
+class EnemyCarFactory {
     static createEnemyCar() {
         return new EnemyCar();
     }
 }
+export default EnemyCarFactory;

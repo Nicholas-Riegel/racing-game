@@ -1,5 +1,5 @@
 
-export class EnemyCar{
+class EnemyCar{
     
     private enemyCar!: HTMLDivElement;
     private cleanupInterval: number | null = null;
@@ -55,8 +55,10 @@ export class EnemyCar{
     }
 }
 
-export class EnemyCarFactory {
+class EnemyCarFactory {
     public static createEnemyCar(): EnemyCar {
         return new EnemyCar();
     }
 }
+
+export default EnemyCarFactory

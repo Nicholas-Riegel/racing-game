@@ -1,4 +1,4 @@
-export class PlayerCar {
+class PlayerCar {
     
     private playerCar: HTMLDivElement;
     private playerCarX: number;
@@ -124,3 +124,5 @@ export class PlayerCar {
         requestAnimationFrame(() => this.move());
     }
 }
+
+export default PlayerCar;
