@@ -1,12 +1,12 @@
 class Game {
-    constructor(createRoad, // Just call it, don't store it
-    playerCar, enemyCarFactory, collisionChecker) {
-        this.playerCar = playerCar;
+    constructor(roadFactory, // Just call it, don't store it
+    playerCarFactory, enemyCarFactory, collisionChecker) {
         this.enemyCarFactory = enemyCarFactory;
         this.collisionChecker = collisionChecker;
         this.enemyCarInterval = null;
         this.checkCollisionsInterval = null;
-        createRoad();
+        roadFactory();
+        this.playerCar = playerCarFactory();
     }
     start() {
         // Start enemy spawning

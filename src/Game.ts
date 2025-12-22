@@ -7,16 +7,18 @@ interface IPlayerCar {
 
 class Game {
 
+    private playerCar: IPlayerCar;
     private enemyCarInterval: number | null = null;
     private checkCollisionsInterval: number | null = null;
 
     constructor(
-        createRoad: () => void,  // Just call it, don't store it
-        private playerCar: IPlayerCar,
+        roadFactory: () => void,  // Just call it, don't store it
+        playerCarFactory: () => IPlayerCar,
         private enemyCarFactory: () => void,
         private collisionChecker: (playerRect: DOMRect, onCollision: () => void) => boolean
     ) {
-        createRoad();
+        roadFactory();
+        this.playerCar = playerCarFactory();
     }
 
     public start(): void {
