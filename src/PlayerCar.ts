@@ -1,9 +1,9 @@
 class PlayerCar {
     
-    private playerCarDivElement: HTMLDivElement;
-    private playerCarX: number;
-    private playerCarY: number;
-    private speed: number = 3;
+    private playerCarDiv: HTMLDivElement;
+    private playerCarLeft: number;
+    private playerCarTop: number;
+    private speed: number = 7;
     private isPaused: boolean = false;
     
     private arrowUp: boolean = false;
@@ -12,23 +12,22 @@ class PlayerCar {
     private arrowRight: boolean = false;
     
     private readonly topBoundry: number = 4;
-    private readonly bottomBoundry: number = 660;
+    private readonly bottomBoundry: number = 640;
     private readonly leftBoundry: number = 2;
-    private readonly rightBoundry: number = 428;
+    private readonly rightBoundry: number = 420;
         
     constructor(){
-        this.playerCarDivElement = document.createElement('div');
-        this.playerCarDivElement.setAttribute('id', 'playerCar');
-        this.playerCarDivElement.setAttribute('class', 'car');
-        document.querySelector('#road')!.appendChild(this.playerCarDivElement);
-        
-        this.playerCarX = parseInt(getComputedStyle(this.playerCarDivElement).left, 10);
-        this.playerCarY = parseInt(getComputedStyle(this.playerCarDivElement).top, 10);
+        this.playerCarDiv = document.createElement('div');
+        this.playerCarDiv.setAttribute('id', 'playerCar');
+        this.playerCarDiv.setAttribute('class', 'car');
+        document.querySelector('#road')!.appendChild(this.playerCarDiv);
+        this.playerCarLeft = parseInt(getComputedStyle(this.playerCarDiv).left, 10);
+        this.playerCarTop = parseInt(getComputedStyle(this.playerCarDiv).top, 10);
     };
     
-    // Getter for playerCarDivElement
+    // Getter for playerCarDiv
     public getPlayerCarDivElement(): HTMLDivElement {
-        return this.playerCarDivElement
+        return this.playerCarDiv
     }
 
     public updateArrowKeys(key: string, status: boolean): void {
@@ -58,62 +57,60 @@ class PlayerCar {
         }
         
         if (
-            this.arrowUp 
-            && this.arrowLeft 
-            && this.playerCarY > this.topBoundry 
-            && this.playerCarX > this.leftBoundry
+            this.arrowUp && this.arrowLeft 
+            && this.playerCarTop > this.topBoundry 
+            && this.playerCarLeft > this.leftBoundry
         ) {
-            this.playerCarY -= this.speed;
-            this.playerCarX -= this.speed;
+            this.playerCarTop -= this.speed;
+            this.playerCarLeft -= this.speed;
+        } else if (
+            this.arrowUp && this.arrowRight 
+            && this.playerCarTop > this.topBoundry 
+            && this.playerCarLeft < this.rightBoundry
+        ) {
+            this.playerCarTop -= this.speed;
+            this.playerCarLeft += this.speed;
+        } else if (
+            this.arrowDown && this.arrowLeft 
+            && this.playerCarLeft > this.leftBoundry 
+            && this.playerCarTop < this.bottomBoundry
+        ) {
+            this.playerCarTop += this.speed;
+            this.playerCarLeft -= this.speed;
+        } else if (
+            this.arrowDown && this.arrowRight 
+            && this.playerCarLeft < this.rightBoundry 
+            && this.playerCarTop < this.bottomBoundry
+        ) {
+            this.playerCarTop += this.speed;
+            this.playerCarLeft += this.speed;
         } else if (
             this.arrowUp 
-            && this.arrowRight 
-            && this.playerCarY > this.topBoundry 
-            && this.playerCarX < this.rightBoundry
-        ) {
-            this.playerCarY -= this.speed;
-            this.playerCarX += this.speed;
-        } else if (
-            this.arrowDown 
-            && this.arrowLeft 
-            && this.playerCarX > this.leftBoundry 
-            && this.playerCarY < this.bottomBoundry
-        ) {
-            this.playerCarY += this.speed;
-            this.playerCarX -= this.speed;
-        } else if (
-            this.arrowDown 
-            && this.arrowRight 
-            && this.playerCarX < this.rightBoundry 
-            && this.playerCarY < this.bottomBoundry
-        ) {
-            this.playerCarY += this.speed;
-            this.playerCarX += this.speed;
-        } else if (
-            this.arrowUp 
-            && this.playerCarY > this.topBoundry
+            && this.playerCarTop > this.topBoundry
         ){
-            this.playerCarY -= this.speed;
+            this.playerCarTop -= this.speed;
         } else if (
             this.arrowDown 
-            && this.playerCarY < this.bottomBoundry
+            && this.playerCarTop < this.bottomBoundry
         ){
-            this.playerCarY += this.speed;
+            this.playerCarTop += this.speed;
         } else if (
             this.arrowLeft 
-            && this.playerCarX > this.leftBoundry
+            && this.playerCarLeft > this.leftBoundry
         ){
-            this.playerCarX -= this.speed;
+            this.playerCarLeft -= this.speed;
         } else if (
             this.arrowRight 
-            && this.playerCarX < this.rightBoundry
+            && this.playerCarLeft < this.rightBoundry
         ){
-            this.playerCarX += this.speed;
+            this.playerCarLeft += this.speed;
         }
         
-        this.playerCarDivElement.style.top = this.playerCarY + 'px';
-        this.playerCarDivElement.style.left = this.playerCarX + 'px';
+        this.playerCarDiv.style.top = this.playerCarTop + 'px';
+        this.playerCarDiv.style.left = this.playerCarLeft + 'px';
 
+        // Arrow function preserves 'this' binding - without it, 'this' would be undefined
+        // when requestAnimationFrame calls the function later
         requestAnimationFrame(() => this.move());
     }
 

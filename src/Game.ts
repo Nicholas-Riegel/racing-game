@@ -5,6 +5,10 @@ interface IPlayerCar {
     getPlayerCarDivElement(): HTMLDivElement
 }
 
+interface IcheckCollisions {
+    (playerRect: DOMRect, onCollision: () => void, playerCar?: { pause(): void }): boolean;
+}
+
 class Game {
 
     private playerCar: IPlayerCar;
@@ -15,8 +19,7 @@ class Game {
         roadFactory: () => void, 
         playerCarFactory: () => IPlayerCar,
         private enemyCarFactory: () => void,
-        // This will be CollisionDetector.checkCollisions
-        private collisionChecker: (playerRect: DOMRect, onCollision: () => void, playerCar?: { pause(): void }) => boolean
+        private checkCollisions: IcheckCollisions
     ) {
         roadFactory();
         this.playerCar = playerCarFactory();
@@ -32,7 +35,7 @@ class Game {
         
         // Start collision detection
         this.checkCollisionsInterval = setInterval(() => 
-            this.collisionChecker(
+            this.checkCollisions(
                 this.playerCar.getPlayerCarDivElement().getBoundingClientRect(), 
                 () => this.stop(),
                 this.playerCar

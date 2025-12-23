@@ -85,8 +85,33 @@ main {
 
 .car{
     position: absolute;
-    height: 60px;
-    width: 30px;
+    height: 90px;
+    width: 35px;
+}
+
+/* Add wheels using pseudo-elements */
+.car::before,
+.car::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 27px;
+    background-color: black;
+    border-radius: 1px; /* Slightly rounded for better F1 look */
+}
+
+/* Front wheels */
+.car::before {
+    top: -7px;
+    left: -18px;
+    box-shadow: 52px 0 0 black; /* Creates the right front wheel */
+}
+
+/* Rear wheels */
+.car::after {
+    bottom: -7px;
+    left: -18px;
+    box-shadow: 52px 0 0 black; /* Creates the right rear wheel */
 }
 
 #playerCar {
@@ -117,8 +142,8 @@ main {
 .crash-spark{
     position: absolute;
     z-index: 20;
-    height: 50px;
-    width: 50px;
+    height: 60px;
+    width: 60px;
     background-color: yellow;
     clip-path: polygon(
         0% 40%, 40% 45%, 10% 10%, 50% 40%, 
