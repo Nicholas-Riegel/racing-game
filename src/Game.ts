@@ -1,4 +1,3 @@
-
 interface IPlayerCar {
     startPlayerMovement(): void;
     pause(): void;

@@ -1,4 +1,3 @@
-
 class EnemyCar{
     
     private enemyCar!: HTMLDivElement;

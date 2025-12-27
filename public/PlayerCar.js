@@ -1,6 +1,6 @@
 class PlayerCar {
     constructor() {
-        this.speed = 7;
+        this.speed = 5;
         this.isPaused = false;
         this.arrowUp = false;
         this.arrowDown = false;
