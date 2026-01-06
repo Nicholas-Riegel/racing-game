@@ -1,12 +1,13 @@
-import Road from "./Road.js";
-import PlayerCar from "./PlayerCar.js";
-import EnemyCarFactory from "./EnemyCar.js";
+import Road from "./RaceElements/Road.js";
+import PlayerCar from "./RaceElements/PlayerCar.js";
+import EnemyCarFactory from "./RaceElements/EnemyCar.js";
 class Race {
     constructor() {
         this.road = null;
         this.playerCar = null;
         this.enemyCarInterval = null;
         this.checkCollisionsInterval = null;
+        this.backgroundMusic = null;
     }
     start() {
         // Create game elements
@@ -22,12 +23,21 @@ class Race {
                 this.stop();
             }
         }, 10);
+        this.startBackgroundMusic();
     }
     stop() {
         if (this.enemyCarInterval)
             clearInterval(this.enemyCarInterval);
         if (this.checkCollisionsInterval)
             clearInterval(this.checkCollisionsInterval);
+    }
+    startBackgroundMusic() {
+        this.backgroundMusic = new Audio('./dance_around.wav');
+        this.backgroundMusic.loop = true;
+        this.backgroundMusic.volume = 0.5; // 50% volume
+        this.backgroundMusic.play().catch(e => {
+            console.log('Audio play failed:', e);
+        });
     }
     cleanup() {
         console.log('Starting race cleanup...');
@@ -38,6 +48,11 @@ class Race {
             // PlayerCar creates event listeners that need to be removed
             // We need to add a cleanup method to PlayerCar
             this.playerCar.cleanup();
+        }
+        // Clean up audio
+        if (this.backgroundMusic) {
+            this.backgroundMusic.pause();
+            this.backgroundMusic = null;
         }
         // 3. Clean up all enemy cars (they have their own cleanup intervals)
         const enemyCars = document.querySelectorAll('.enemyCar');
@@ -101,6 +116,10 @@ class Race {
         // Pause the player car first!
         if (this.playerCar) {
             this.playerCar.pause();
+        }
+        // Stop background music
+        if (this.backgroundMusic) {
+            this.backgroundMusic.pause();
         }
         // Pause enemy cars
         const enemyCars = document.querySelectorAll('.enemyCar');

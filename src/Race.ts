@@ -1,7 +1,6 @@
-import Road from "./Road.js";
-import PlayerCar from "./PlayerCar.js";
-import EnemyCarFactory from "./EnemyCar.js";
-import CollisionDetector from "./CollisionDetector.js";
+import Road from "./RaceElements/Road.js";
+import PlayerCar from "./RaceElements/PlayerCar.js";
+import EnemyCarFactory from "./RaceElements/EnemyCar.js";
 
 class Race {
 
@@ -9,6 +8,7 @@ class Race {
     private playerCar: PlayerCar | null = null;
     private enemyCarInterval: number | null = null;
     private checkCollisionsInterval: number | null = null;
+    private backgroundMusic: HTMLAudioElement | null = null;
 
     public start(): void {
         // Create game elements
@@ -27,11 +27,22 @@ class Race {
                 this.stop();
             }
         }, 10);
+
+        this.startBackgroundMusic();
     }
 
     public stop(): void {
         if (this.enemyCarInterval) clearInterval(this.enemyCarInterval);
         if (this.checkCollisionsInterval) clearInterval(this.checkCollisionsInterval);
+    }
+
+    private startBackgroundMusic(): void {
+        this.backgroundMusic = new Audio('./dance_around.wav');
+        this.backgroundMusic.loop = true;
+        this.backgroundMusic.volume = 0.5; // 50% volume
+        this.backgroundMusic.play().catch(e => {
+            console.log('Audio play failed:', e);
+        });
     }
 
     public cleanup(): void {
@@ -47,6 +58,12 @@ class Race {
             this.playerCar.cleanup();
         }
         
+        // Clean up audio
+        if (this.backgroundMusic) {
+            this.backgroundMusic.pause();
+            this.backgroundMusic = null;
+        }
+
         // 3. Clean up all enemy cars (they have their own cleanup intervals)
         const enemyCars = document.querySelectorAll('.enemyCar');
         enemyCars.forEach(enemyCarElement => {
@@ -121,6 +138,11 @@ class Race {
         // Pause the player car first!
         if (this.playerCar) {
             this.playerCar.pause();
+        }
+
+        // Stop background music
+        if (this.backgroundMusic) {
+            this.backgroundMusic.pause();
         }
         
         // Pause enemy cars
