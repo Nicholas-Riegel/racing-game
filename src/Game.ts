@@ -10,6 +10,7 @@ class Game {
     }
     
     private setupUI(): void {
+        
         // Setup restart button
         this.restartButton = document.querySelector('#restart-button') as HTMLButtonElement;
         if (this.restartButton) {
@@ -20,6 +21,7 @@ class Game {
     }
 
     public start(): void {
+
         // Clean up previous race if it exists
         if (this.currentRace) {
             this.currentRace.cleanup();

@@ -13,6 +13,8 @@ class Race {
         // Create game elements
         this.road = new Road();
         this.playerCar = new PlayerCar();
+        // Start music
+        this.startBackgroundMusic();
         // Start enemy spawning
         this.enemyCarInterval = setInterval(() => EnemyCarFactory.createEnemyCar(), 1000);
         // Start player movement
@@ -23,7 +25,6 @@ class Race {
                 this.stop();
             }
         }, 10);
-        this.startBackgroundMusic();
     }
     stop() {
         if (this.enemyCarInterval)
@@ -40,7 +41,6 @@ class Race {
         });
     }
     cleanup() {
-        console.log('Starting race cleanup...');
         // 1. Stop all intervals first
         this.stop();
         // 2. Clean up PlayerCar resources
@@ -85,11 +85,6 @@ class Race {
         this.playerCar = null;
         this.enemyCarInterval = null;
         this.checkCollisionsInterval = null;
-        console.log('Race cleanup complete');
-    }
-    restart() {
-        this.cleanup();
-        this.start();
     }
     // Collision detection
     isColliding(playerRect, enemyRect) {

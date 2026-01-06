@@ -3,7 +3,7 @@ class PlayerCar {
     private playerCarDiv: HTMLDivElement;
     private playerCarLeft: number;
     private playerCarTop: number;
-    private speed: number = 5;
+    private speed: number = 4;
     private isPaused: boolean = false;
     
     private arrowUp: boolean = false;

@@ -11,16 +11,20 @@ class Race {
     private backgroundMusic: HTMLAudioElement | null = null;
 
     public start(): void {
+        
         // Create game elements
         this.road = new Road();
         this.playerCar = new PlayerCar();
+        
+        // Start music
+        this.startBackgroundMusic();
         
         // Start enemy spawning
         this.enemyCarInterval = setInterval(() => EnemyCarFactory.createEnemyCar(), 1000);
         
         // Start player movement
         this.playerCar.startPlayerMovement();
-        
+
         // Start collision detection
         this.checkCollisionsInterval = setInterval(() => {
             if (this.checkCollisions()) {
@@ -28,7 +32,6 @@ class Race {
             }
         }, 10);
 
-        this.startBackgroundMusic();
     }
 
     public stop(): void {
@@ -46,7 +49,6 @@ class Race {
     }
 
     public cleanup(): void {
-        console.log('Starting race cleanup...');
         
         // 1. Stop all intervals first
         this.stop();
@@ -101,12 +103,6 @@ class Race {
         this.enemyCarInterval = null;
         this.checkCollisionsInterval = null;
         
-        console.log('Race cleanup complete');
-    }
-
-    public restart(): void {
-        this.cleanup();
-        this.start();
     }
 
     // Collision detection
@@ -118,6 +114,7 @@ class Race {
     }
 
     private checkCollisions(): boolean {
+        
         if (!this.playerCar) return false;
         
         const playerRect = this.playerCar.getPlayerCarDivElement().getBoundingClientRect();
