@@ -122,18 +122,38 @@ class PlayerCar {
         this.isPaused = false;
     }
     
-    // Function to start player movement
+    private keydownHandler = (e: KeyboardEvent) => {
+        this.updateArrowKeys(e.key, true);
+    };
+
+    private keyupHandler = (e: KeyboardEvent) => {
+        this.updateArrowKeys(e.key, false);
+    };
+
+    // Update the startPlayerMovement method:
     public startPlayerMovement = () => {
-        
-        document.addEventListener('keydown', (e) => {
-            this.updateArrowKeys(e.key, true)
-        });
-
-        document.addEventListener('keyup', (e) => {
-            this.updateArrowKeys(e.key, false)
-        });
-
+        document.addEventListener('keydown', this.keydownHandler);
+        document.addEventListener('keyup', this.keyupHandler);
         requestAnimationFrame(() => this.move());
+    }
+
+    // Add the cleanup method:
+    public cleanup(): void {
+        console.log('Cleaning up PlayerCar...');
+        
+        // Stop the animation loop
+        this.pause();
+        
+        // Remove event listeners using the stored function references
+        document.removeEventListener('keydown', this.keydownHandler);
+        document.removeEventListener('keyup', this.keyupHandler);
+        
+        // Remove DOM element (though Race.cleanup() will also do this)
+        if (this.playerCarDiv && this.playerCarDiv.parentNode) {
+            this.playerCarDiv.remove();
+        }
+        
+        console.log('PlayerCar cleanup complete');
     }
 }
 

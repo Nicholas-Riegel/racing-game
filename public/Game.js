@@ -1,25 +1,27 @@
+import Race from "./Race.js";
 class Game {
-    constructor(roadFactory, playerCarFactory, enemyCarFactory, checkCollisions) {
-        this.enemyCarFactory = enemyCarFactory;
-        this.checkCollisions = checkCollisions;
-        this.enemyCarInterval = null;
-        this.checkCollisionsInterval = null;
-        roadFactory();
-        this.playerCar = playerCarFactory();
+    constructor() {
+        this.currentRace = null;
+        this.restartButton = null;
+        this.setupUI();
+    }
+    setupUI() {
+        // Setup restart button
+        this.restartButton = document.querySelector('#restart-button');
+        if (this.restartButton) {
+            this.restartButton.addEventListener('click', () => {
+                this.start();
+            });
+        }
     }
     start() {
-        // Start enemy spawning
-        this.enemyCarInterval = setInterval(this.enemyCarFactory, 1000);
-        // Start player movement
-        this.playerCar.startPlayerMovement();
-        // Start collision detection
-        this.checkCollisionsInterval = setInterval(() => this.checkCollisions(this.playerCar.getPlayerCarDivElement().getBoundingClientRect(), () => this.stop(), this.playerCar), 10);
-    }
-    stop() {
-        if (this.enemyCarInterval)
-            clearInterval(this.enemyCarInterval);
-        if (this.checkCollisionsInterval)
-            clearInterval(this.checkCollisionsInterval);
+        // Clean up previous race if it exists
+        if (this.currentRace) {
+            this.currentRace.cleanup();
+        }
+        // Create and start new race
+        this.currentRace = new Race();
+        this.currentRace.start();
     }
 }
 export default Game;

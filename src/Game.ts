@@ -1,51 +1,35 @@
-interface IPlayerCar {
-    startPlayerMovement(): void;
-    pause(): void;
-    getPlayerCarDivElement(): HTMLDivElement
-}
-
-interface IcheckCollisions {
-    (playerRect: DOMRect, onCollision: () => void, playerCar?: { pause(): void }): boolean;
-}
+import Race from "./Race.js";
 
 class Game {
 
-    private playerCar: IPlayerCar;
-    private enemyCarInterval: number | null = null;
-    private checkCollisionsInterval: number | null = null;
-
-    constructor(
-        roadFactory: () => void, 
-        playerCarFactory: () => IPlayerCar,
-        private enemyCarFactory: () => void,
-        private checkCollisions: IcheckCollisions
-    ) {
-        roadFactory();
-        this.playerCar = playerCarFactory();
+    private currentRace: Race | null = null;
+    private restartButton: HTMLButtonElement | null = null;
+    
+    constructor() {
+        this.setupUI();
+    }
+    
+    private setupUI(): void {
+        // Setup restart button
+        this.restartButton = document.querySelector('#restart-button') as HTMLButtonElement;
+        if (this.restartButton) {
+            this.restartButton.addEventListener('click', () => {
+                this.start();
+            });
+        }
     }
 
     public start(): void {
+        // Clean up previous race if it exists
+        if (this.currentRace) {
+            this.currentRace.cleanup();
+        }
         
-        // Start enemy spawning
-        this.enemyCarInterval = setInterval(this.enemyCarFactory, 1000);
-        
-        // Start player movement
-        this.playerCar.startPlayerMovement();
-        
-        // Start collision detection
-        this.checkCollisionsInterval = setInterval(() => 
-            this.checkCollisions(
-                this.playerCar.getPlayerCarDivElement().getBoundingClientRect(), 
-                () => this.stop(),
-                this.playerCar
-            ), 10
-        );
+        // Create and start new race
+        this.currentRace = new Race();
+        this.currentRace.start();
     }
 
-    public stop(): void {
-        if (this.enemyCarInterval) clearInterval(this.enemyCarInterval);
-        if (this.checkCollisionsInterval) clearInterval(this.checkCollisionsInterval);
-    }
 }
 
 export default Game;

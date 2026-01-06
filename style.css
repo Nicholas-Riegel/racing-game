@@ -151,3 +151,26 @@ main {
         100% 60%, 65% 60%, 100% 100%, 60% 70%, 
         50% 100%, 50% 70%, 0% 90%, 40% 60%);
 }
+
+
+#restart-button {
+    position: fixed;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 16px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+#restart-button:hover {
+    background-color: #45a049;
+}
