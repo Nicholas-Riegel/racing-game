@@ -18,10 +18,6 @@ class Road {
         });
     }
 
-    public resetLines(): void {
-        // Could add methods to reset/modify road
-    }
-
     public pauseAnimations(): void {
         document.getElementById('lines-container-2')!.classList.add('pause-animation');
         document.getElementById('lines-container-3')!.classList.add('pause-animation');

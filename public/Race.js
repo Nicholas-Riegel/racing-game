@@ -33,7 +33,7 @@ class Race {
             clearInterval(this.checkCollisionsInterval);
     }
     startBackgroundMusic() {
-        this.backgroundMusic = new Audio('./dance_around.wav');
+        this.backgroundMusic = new Audio('./assets/dance_around.wav');
         this.backgroundMusic.loop = true;
         this.backgroundMusic.volume = 0.5; // 50% volume
         this.backgroundMusic.play().catch(e => {
@@ -41,9 +41,9 @@ class Race {
         });
     }
     cleanup() {
-        // 1. Stop all intervals first
+        // Stop all intervals first
         this.stop();
-        // 2. Clean up PlayerCar resources
+        // Clean up PlayerCar resources
         if (this.playerCar) {
             // PlayerCar creates event listeners that need to be removed
             // We need to add a cleanup method to PlayerCar
@@ -54,33 +54,33 @@ class Race {
             this.backgroundMusic.pause();
             this.backgroundMusic = null;
         }
-        // 3. Clean up all enemy cars (they have their own cleanup intervals)
+        // Clean up all enemy cars (they have their own cleanup intervals)
         const enemyCars = document.querySelectorAll('.enemyCar');
         enemyCars.forEach(enemyCarElement => {
             // Find the EnemyCar instance and call destroy
             // Since we can't easily track instances, we'll force remove
             enemyCarElement.remove();
         });
-        // 4. Remove player car DOM element
+        // Remove player car DOM element
         const playerCarElement = document.querySelector('#playerCar');
         if (playerCarElement) {
             playerCarElement.remove();
         }
-        // 5. Remove crash spark if it exists
+        // Remove crash spark if it exists
         const spark = document.querySelector('.crash-spark');
         if (spark) {
             spark.remove();
         }
-        // 6. Clean up road lines (Road creates DOM elements)
+        // Clean up road lines
         const containers = document.querySelectorAll('#road > div');
         containers.forEach(container => {
             container.innerHTML = ''; // Remove all line elements
         });
-        // 7. Remove any pause-animation classes that might be stuck
+        // Remove any pause-animation classes that might be stuck
         containers.forEach(container => {
             container.classList.remove('pause-animation');
         });
-        // 8. Reset references
+        // Reset references
         this.road = null;
         this.playerCar = null;
         this.enemyCarInterval = null;

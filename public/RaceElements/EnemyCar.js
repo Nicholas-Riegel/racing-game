@@ -7,9 +7,13 @@ class EnemyCar {
     createEnemyCar() {
         this.enemyCar = document.createElement('div');
         this.enemyCar.classList.add('car', 'enemyCar');
-        const left = Math.floor(Math.random() * 428);
-        this.enemyCar.style.left = `${left}px`;
         const road = document.getElementById('road');
+        const roadWidth = road.offsetWidth; // Gets actual computed width
+        const minLeft = EnemyCar.ROAD_PADDING;
+        const maxLeft = roadWidth - EnemyCar.CAR_WIDTH - EnemyCar.ROAD_PADDING;
+        const spawnRange = maxLeft - minLeft;
+        const left = minLeft + Math.floor(Math.random() * spawnRange);
+        this.enemyCar.style.left = `${left}px`;
         road.prepend(this.enemyCar);
     }
     // check position of enemy car and remove if off bottom of screen
@@ -30,10 +34,9 @@ class EnemyCar {
             road.removeChild(this.enemyCar);
         }
     }
-    getElement() {
-        return this.enemyCar;
-    }
 }
+EnemyCar.CAR_WIDTH = 35; // From your CSS: width: 35px
+EnemyCar.ROAD_PADDING = 20; // Safe padding from road edges
 class EnemyCarFactory {
     static createEnemyCar() {
         return new EnemyCar();
