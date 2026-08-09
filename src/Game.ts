@@ -4,6 +4,7 @@ class Game {
 
     private currentRace: Race | null = null;
     private restartButton: HTMLButtonElement | null = null;
+    public highScore: number = 0;
     
     constructor() {
         this.setupUI();
@@ -28,10 +29,9 @@ class Game {
         }
         
         // Create and start new race
-        this.currentRace = new Race();
+        this.currentRace = new Race(this);
         this.currentRace.start();
     }
-
 }
 
 export default Game;

@@ -1,6 +1,7 @@
 import Road from "./RaceElements/Road.js";
 import PlayerCar from "./RaceElements/PlayerCar.js";
 import EnemyCarFactory from "./RaceElements/EnemyCar.js";
+import Game from "./Game.js";
 
 class Race {
 
@@ -9,12 +10,21 @@ class Race {
     private enemyCarInterval: number | null = null;
     private checkCollisionsInterval: number | null = null;
     private backgroundMusic: HTMLAudioElement | null = null;
+    private startTime: number;
+    private currentTime: number;
+    private elapsedTime: number = 0;
+    private game: Game;
+
+    constructor(game: Game){
+        this.game = game;
+    }
 
     public start(): void {
         
         // Create game elements
         this.road = new Road();
         this.playerCar = new PlayerCar();
+        this.startTime = Date.now();
         
         // Start music
         this.startBackgroundMusic();
@@ -27,11 +37,43 @@ class Race {
 
         // Start collision detection
         this.checkCollisionsInterval = setInterval(() => {
+            this.updateTimer();
             if (this.checkCollisions()) {
                 this.stop();
             }
         }, 10);
 
+    }
+
+    public updateTimer(): void {
+
+        this.currentTime = Date.now();
+        this.elapsedTime = this.currentTime - this.startTime;
+
+        // Format elapsed time as MM:SS
+        const seconds = Math.floor(this.elapsedTime / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const displaySeconds = seconds % 60;
+        const timeDisplay = `${minutes}:${displaySeconds.toString().padStart(2, '0')}`;
+
+        // Update the UI element
+        const timerElement = document.querySelector('#current-time');
+        if (timerElement) {
+            timerElement.textContent = timeDisplay;
+        }
+
+        const highScoreElement = document.querySelector('#high-score');
+        if (highScoreElement && this.elapsedTime > this.game.highScore){
+            
+            this.game.highScore = this.elapsedTime;
+            
+            const seconds = Math.floor(this.game.highScore / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const displaySeconds = seconds % 60;
+            const timeDisplay = `${minutes}:${displaySeconds.toString().padStart(2, '0')}`;
+            
+            highScoreElement.textContent = timeDisplay;
+        }
     }
 
     public stop(): void {

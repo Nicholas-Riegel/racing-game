@@ -2,17 +2,20 @@ import Road from "./RaceElements/Road.js";
 import PlayerCar from "./RaceElements/PlayerCar.js";
 import EnemyCarFactory from "./RaceElements/EnemyCar.js";
 class Race {
-    constructor() {
+    constructor(game) {
         this.road = null;
         this.playerCar = null;
         this.enemyCarInterval = null;
         this.checkCollisionsInterval = null;
         this.backgroundMusic = null;
+        this.elapsedTime = 0;
+        this.game = game;
     }
     start() {
         // Create game elements
         this.road = new Road();
         this.playerCar = new PlayerCar();
+        this.startTime = Date.now();
         // Start music
         this.startBackgroundMusic();
         // Start enemy spawning
@@ -21,10 +24,34 @@ class Race {
         this.playerCar.startPlayerMovement();
         // Start collision detection
         this.checkCollisionsInterval = setInterval(() => {
+            this.updateTimer();
             if (this.checkCollisions()) {
                 this.stop();
             }
         }, 10);
+    }
+    updateTimer() {
+        this.currentTime = Date.now();
+        this.elapsedTime = this.currentTime - this.startTime;
+        // Format elapsed time as MM:SS
+        const seconds = Math.floor(this.elapsedTime / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const displaySeconds = seconds % 60;
+        const timeDisplay = `${minutes}:${displaySeconds.toString().padStart(2, '0')}`;
+        // Update the UI element
+        const timerElement = document.querySelector('#current-time');
+        if (timerElement) {
+            timerElement.textContent = timeDisplay;
+        }
+        const highScoreElement = document.querySelector('#high-score');
+        if (highScoreElement && this.elapsedTime > this.game.highScore) {
+            this.game.highScore = this.elapsedTime;
+            const seconds = Math.floor(this.game.highScore / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const displaySeconds = seconds % 60;
+            const timeDisplay = `${minutes}:${displaySeconds.toString().padStart(2, '0')}`;
+            highScoreElement.textContent = timeDisplay;
+        }
     }
     stop() {
         if (this.enemyCarInterval)

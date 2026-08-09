@@ -153,10 +153,6 @@ main {
 
 
 #restart-button {
-    position: fixed;
-    bottom: 60px;
-    left: 50%;
-    transform: translateX(-50%);
     font-size: 16px;
     padding: 10px 20px;
     background-color: #4CAF50;
@@ -166,10 +162,50 @@ main {
     cursor: pointer;
     transition: background-color 0.3s;
     font-weight: bold;
-    z-index: 1000;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    margin-top: 15px;
 }
 
 #restart-button:hover {
     background-color: #45a049;
+}
+
+/* Timer Box Styling */
+main > div:last-child {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 20px;
+}
+
+#timer-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    padding: 20px;
+    background-color: #4CAF50;
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+#timer-box label {
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#high-score,
+#current-time {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    letter-spacing: 2px;
+    min-width: 100px;
+    text-align: center;
 }

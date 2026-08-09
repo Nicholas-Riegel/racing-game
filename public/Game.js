@@ -3,6 +3,7 @@ class Game {
     constructor() {
         this.currentRace = null;
         this.restartButton = null;
+        this.highScore = 0;
         this.setupUI();
     }
     setupUI() {
@@ -20,7 +21,7 @@ class Game {
             this.currentRace.cleanup();
         }
         // Create and start new race
-        this.currentRace = new Race();
+        this.currentRace = new Race(this);
         this.currentRace.start();
     }
 }
